@@ -1,0 +1,22 @@
+{
+    "name": "sergmoro1/laravel-image-uploader",
+    "description": "The ability to upload multiple photos to any model",
+    "type": "library",
+    "require": {
+        "imagine/imagine": "~0.5.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sergmoro1\\LaravelImageUploader\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sergey Morozov",
+            "email": "sergmoro1@ya.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
