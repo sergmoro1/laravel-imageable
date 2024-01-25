@@ -81,7 +81,14 @@ if (el) {
 ```
 Of course, the plugins used must be pre-installed.
 
-The use of these plugins is not necessary, you can use any others. In this case, you need to rewrite the handler for uploaded images `resources\js\simpleUpload.js`.
+## JS options
+
+Place the definition of parameters for uploading images for the model in one of the blade-templates.
+```
+    <x-slot name="scripts">
+      <script>var uploadOptions = <?= $post->uploadOptions() ?>;</script>
+    </x-slot>
+```
 
 ## Finally
 Run in the project directory:
