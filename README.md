@@ -64,7 +64,7 @@ import Sortable from 'sortablejs';
 el = document.querySelector('ul.table');
 if (el) {
   var sortable = Sortable.create(el, {
-	  onEnd: function (evt) {
+    onEnd: function (evt) {
       axios.put('/api/images/' + evt.item.id, {
         oldIndex: evt.oldIndex,
         newIndex: evt.newIndex,
@@ -75,7 +75,7 @@ if (el) {
       .catch(err => {
         console.log(err);
       });
-	  },    
+    },    
   });
 }
 ```
