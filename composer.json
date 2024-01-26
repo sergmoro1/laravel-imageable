@@ -2,10 +2,20 @@
     "name": "sergmoro1/laravel-imageable",
     "description": "The ability to upload multiple photos to any model",
     "type": "library",
+    "authors": [
+        {
+            "name": "Sergey Morozov",
+            "email": "sergmoro1@ya.ru"
+        }
+    ],
     "require": {
         "php": "^7.3|^8.0",
-        "illuminate/support": "5.6.*",
+        "illuminate/support": "^8.1.",
         "imagine/imagine": "~0.5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.6"
     },
     "license": "MIT",
     "autoload": {
@@ -13,14 +23,18 @@
             "Sergmoro1\\Imageable\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "Sergey Morozov",
-            "email": "sergmoro1@ya.ru"
+    "autoload-dev": {
+        "psr-4": {
+            "Sergmoro1\\Imageable\\Test\\": "tests/"
         }
-    ],
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "scripts": {
+		"test": [
+	  		"vendor/bin/phpunit"
+		]
+    },
     "extra": {
         "laravel": {
             "providers": [
