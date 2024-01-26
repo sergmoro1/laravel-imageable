@@ -2,6 +2,7 @@
 
 namespace Sergmoro1\Imageable\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Sergmoro1\Imageable\Models\Image;
 
 /**
@@ -19,7 +20,21 @@ trait HasImages
     protected $addonDefaults = [
         'caption' => '',
     ];
-    
+
+    /**
+     * Deleting all images associated with the model 
+     * after deleting the model itself.
+     */
+    public static function bootHasImages(): void
+    {
+        static::deleted(fn (Model $model) =>
+            Image::where([
+                'imageable_type' => get_class(),
+                'imageable_id' => $model->id,
+            ])->delete(),
+        );
+    }
+
     /**
      * Get the images of the model.
      */
