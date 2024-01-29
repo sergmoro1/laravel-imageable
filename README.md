@@ -33,7 +33,7 @@ Insert upload component in a view.
 ```
 <x-imageable-upload :model="$post"/>
 ```
-Place the necessary `css` and `js` files on the page and you can upload images.
+Place the necessary `css` and `js` files on the page and you can upload images (see carfully all chapters below that begins on CSS, JS).
 
 ## CSS
 Copy the file from the `resources/css` directory of the package to the same project directory.
