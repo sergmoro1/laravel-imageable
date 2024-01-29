@@ -22,5 +22,5 @@ return [
     |
     */
 
-    'auth-method' => env('APP_AUTH', 'auth.basic.once'),
+    'auth-method' => 'auth.basic.once',
 ];

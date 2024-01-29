@@ -83,7 +83,8 @@ Of course, the plugins used must be pre-installed.
 
 ## JS options
 
-Place the definition of parameters for uploading images for the model in one of the blade-templates.
+Place the definition of parameters for uploading images for the model in one of the blade-templates. It is necessary to place the definition before the script `app.js`.
+Note that the model instance (in the example below `$post`) must be available in the blade template.
 ```
     <x-slot name="scripts">
       <script>var uploadOptions = <?= $post->uploadOptions() ?>;</script>
@@ -146,3 +147,8 @@ class Post extends Model
 ``` 
 
 You need to copy the file `vendor\imageable\line\fields.blade.php `to the file `vendor\imageable\line\post-fields.blade.php` and make changes.
+
+## Tests
+```
+composer test
+```

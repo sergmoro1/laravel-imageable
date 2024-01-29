@@ -20,12 +20,13 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Sergmoro1\\Imageable\\": "src/"
+            "Sergmoro1\\Imageable\\": "src/",
+            "Sergmoro1\\Imageable\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Sergmoro1\\Imageable\\Test\\": "tests/"
+            "Sergmoro1\\Imageable\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

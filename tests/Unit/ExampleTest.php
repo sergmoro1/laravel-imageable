@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Orchestra\Testbench\TestCase;
+use Sergmoro1\Imageable\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
