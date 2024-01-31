@@ -3,6 +3,7 @@
 namespace Sergmoro1\Imageable\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Sergmoro1\Imageable\Models\Image;
 
 /**
@@ -27,12 +28,18 @@ trait HasImages
      */
     public static function bootHasImages(): void
     {
-        static::deleted(fn (Model $model) =>
-            Image::where([
+        static::deleted(function (Model $model): void {
+            foreach (Image::where([
                 'imageable_type' => get_class(),
                 'imageable_id' => $model->id,
-            ])->delete(),
-        );
+            ])->get() as $image) {
+                // delete all files from disk
+                Storage::disk($model->getDisk())->delete($image->url);
+                Storage::disk($model->getDisk())->delete($image->getThumbnailUrl(false));
+                // delete image information
+                $image->delete();
+            };
+        });
     }
 
     /**

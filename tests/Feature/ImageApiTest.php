@@ -106,11 +106,11 @@ class ImageApiTest extends TestCase
     }
 
     /**
-     * Api image delete test.
+     * Api image delete test (deletion by image Id).
      *
      * @return void
      */
-    public function test_api_image_delete()
+    public function test_api_image_delete_by_id()
     {
         // find and delete image
         $image = Image::where(['original' => 'avatar.jpg'])->first();
@@ -120,5 +120,20 @@ class ImageApiTest extends TestCase
         // verify the uploaded file not exists
         $this->assertTrue(!Storage::disk($this->user->getDisk())
             ->exists($this->user->getFullPath() . '/' . $this->avatar->hashName()));
+    }
+
+    /**
+     * Api image delete test (deletion of a model).
+     *
+     * @return void
+     */
+    public function test_api_image_delete_by_model()
+    {
+        $disk = $this->user->getDisk();
+        $fullPath = $this->user->getFullPath();
+        $this->user->delete();
+        // verify the uploaded file not exists
+        $this->assertTrue(!Storage::disk($disk)
+            ->exists($fullPath . '/' . $this->avatar->hashName()));
     }
 }
