@@ -17,10 +17,11 @@ class ImageableServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->registerRoutes();
+
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('auth.basic.once', AuthenticateOnceWithBasicAuth::class);
 
-        $this->registerRoutes();
         if ($this->app->runningInConsole()) {
             $this->publishes([
               __DIR__.'/../resources/views' => resource_path('views/vendor/imageable'),

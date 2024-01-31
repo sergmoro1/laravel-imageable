@@ -11,37 +11,55 @@ use Sergmoro1\Imageable\Models\Image;
 
 class ImageApiTest extends TestCase
 {
-    /**
-     * Api image tests - store, update, delete.
-     *
-     * @return void
-     */
-    public function test_api_image()
+    public $user;
+    public $avatar;
+    public $response;
+    
+    public function setUp(): void
     {
+        parent::setUp();
+
         // set credentials
         BasicAuth::setKey('sergmoro1@ya.ru', 'password');
+        
         // create user
-        $user = User::factory()->create([
+        $this->user = User::factory()->create([
             'email' => 'sergmoro1@ya.ru',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ]);
-        
-        /* Store */
+        // create image
+        $this->avatar = UploadedFile::fake()->image('avatar.jpg');
 
-        // create picture
-        $file = UploadedFile::fake()->image('avatar.jpg');
         // send post request
-        $this->withHeaders(["Authorization" => BasicAuth::getKey()])
+        $this->response = $this->withHeaders(["Authorization" => BasicAuth::getKey()])
             ->postJson('api/images', [
                 'imageable_type' => 'Sergmoro1\Imageable\Models\User',
-                'imageable_id' => $user->id,
-                'file_input' => $file,
-            ])->assertJsonFragment(['success' => 1]);
+                'imageable_id' => $this->user->id,
+                'file_input' => $this->avatar,
+            ]);
+    }
+
+    /**
+     * Api image store test.
+     *
+     * @return void
+     */
+    public function test_api_image_store()
+    {
+        // User and avater created succeessfully
+        $this->response->assertJsonFragment(['success' => 1]);
         // verify the uploaded file exists
-        Storage::disk($user->getDisk())->assertExists($user->getFullPath() . '/' . $file->hashName());
+        Storage::disk($this->user->getDisk())
+            ->assertExists($this->user->getFullPath() . '/' . $this->avatar->hashName());
+    }
 
-        /* Update addons */
-
+    /**
+     * Api image update addons test.
+     *
+     * @return void
+     */
+    public function test_api_image_update_addons()
+    {
         // find image by file name
         $image = Image::where(['original' => 'avatar.jpg'])->first();
         // update addons
@@ -50,18 +68,25 @@ class ImageApiTest extends TestCase
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
             ->putJson('api/images/' . $image->id, $image->toArray())
             ->assertStatus(200);
+    }
 
-        /* Update position */
-
-        // add second image
+    /**
+     * Api image swapping two images positions test.
+     *
+     * @return void
+     */
+    public function test_api_image_swapping()
+    {
+        // find image by file name
+        $image = Image::where(['original' => 'avatar.jpg'])->first();
+        // adding second image for swapping
         $file = UploadedFile::fake()->image('photo.jpg');
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
             ->postJson('api/images', [
                 'imageable_type' => 'Sergmoro1\Imageable\Models\User',
-                'imageable_id' => $user->id,
+                'imageable_id' => $this->user->id,
                 'file_input' => $file,
-            ])->assertJsonFragment(['success' => 1]);
-
+            ]);
         // find just added image
         $swapping_image = Image::where(['original' => 'photo.jpg'])->first();
         // the previous image has a position smaller than the one just added
@@ -74,19 +99,26 @@ class ImageApiTest extends TestCase
 
         // find first image
         $image = Image::where(['original' => 'avatar.jpg'])->first();
-        // find second image
+        // find swapping image
         $swapping_image = Image::where(['original' => 'photo.jpg'])->first();
         // now the newly added image has a smaller position
-        $this->assertLessThan($image->position, $swapping_image->position);
-        
-        /* Delete both images */
+        $this->assertLessThan($image->position, $swapping_image->position); 
+    }
 
+    /**
+     * Api image delete test.
+     *
+     * @return void
+     */
+    public function test_api_image_delete()
+    {
+        // find and delete image
+        $image = Image::where(['original' => 'avatar.jpg'])->first();
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
             ->deleteJson('api/images/' . $image->id)
             ->assertStatus(200);
-
-        $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->deleteJson('api/images/' . $swapping_image->id)
-            ->assertStatus(200);
+        // verify the uploaded file not exists
+        $this->assertTrue(!Storage::disk($this->user->getDisk())
+            ->exists($this->user->getFullPath() . '/' . $this->avatar->hashName()));
     }
 }
