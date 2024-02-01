@@ -76,6 +76,10 @@ class Image extends Model
 
     /**
      * Make thumbnail.
+     * 
+     * @param int $width thumbnail
+     * @param int $height thumbnail
+     * @return string
      */
     public function makeThumbnail(int $width = 100, int $height = 100): string
     {
@@ -91,7 +95,7 @@ class Image extends Model
     /**
      * Set thumbnail.
      */
-    public function setThumbnail()
+    public function setThumbnail(): void
     {
         if (!$this->thumbnail) {
             $this->thumbnail = substr($this->url, 0, strpos($this->url, '.')) . '.thumb.png';
@@ -109,7 +113,8 @@ class Image extends Model
     }
 
     /**
-     * Get url.
+     * Get thumbnail url.
+     * 
      * @param bool $includeStorage
      * @return string
      */
@@ -117,5 +122,19 @@ class Image extends Model
     {
         $this->setThumbnail();
         return $includeStorage ? Storage::url($this->thumbnail) : $this->thumbnail;
+    }
+
+    /**
+     * Delete all about image - delete all files associated with image and image information itself.
+     * 
+     * @param string $disk
+     */
+    public function deleteAllAbout(string $disk): void
+    {
+        // delete all files associated with image
+        Storage::disk($disk)->delete($this->url);
+        Storage::disk($disk)->delete($this->getThumbnailUrl(false));
+        // delete image information
+        $this->delete();
     }
 }

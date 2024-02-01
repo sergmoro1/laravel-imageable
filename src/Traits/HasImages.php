@@ -24,7 +24,7 @@ trait HasImages
 
     /**
      * Deleting all images associated with the model 
-     * after deleting the model itself.
+     * before deleting the model itself.
      */
     public static function bootHasImages(): void
     {
@@ -33,17 +33,15 @@ trait HasImages
                 'imageable_type' => get_class(),
                 'imageable_id' => $model->id,
             ])->get() as $image) {
-                // delete all files from disk
-                Storage::disk($model->getDisk())->delete($image->url);
-                Storage::disk($model->getDisk())->delete($image->getThumbnailUrl(false));
-                // delete image information
-                $image->delete();
+                $image->deleteAllAbout($model->getDisk());
             };
         });
     }
 
     /**
      * Get the images of the model.
+     * 
+     * @return Image[]
      */
     public function images()
     {
@@ -73,7 +71,12 @@ trait HasImages
         ]);
     }
 
-    public function getAddonFieldsView()
+    /**
+     * Get view for addons fields.
+     * 
+     * @return string
+     */
+    public function getAddonFieldsView(): string
     {
         return empty($this->addonFieldsView) ? 'fields' : $this->addonFieldsView;
     }

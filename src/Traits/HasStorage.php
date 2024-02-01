@@ -27,17 +27,21 @@ trait HasStorage
     }
 
     /**
-     * Get the disk.
+     * Get the disk name.
+     * 
+     * @return string
      */
-    public function getDisk()
+    public function getDisk(): string
     {
         return $this->storage['disk'];
     }
 
     /**
      * Get full path to image.
+     * 
+     * @return string
      */
-    public function getFullPath()
+    public function getFullPath(): string
     {
         if (!$this->storage['path']) { 
             $this->storage['path'] = strtolower(class_basename(get_class($this)));
