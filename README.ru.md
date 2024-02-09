@@ -17,6 +17,11 @@ or add to the `require` section of your `composer.json`.
 php artisan migrate
 ```
 
+## Puplish views
+```
+php artisan vendor:publish --provider="Sergmoro1\Imageable\ImageableServiceProvider"
+```
+
 ## Usage
 Для возможности загрузки изображений добавьте `HasStorage`, `HasImages` трейты к модели.
 ```
