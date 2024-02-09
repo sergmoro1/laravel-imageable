@@ -39,7 +39,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Sergmoro1\\Imageable\\ServiceProvider"
+                "Sergmoro1\\Imageable\\ImageableServiceProvider"
             ]
         }
     }
