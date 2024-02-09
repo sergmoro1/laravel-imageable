@@ -9,8 +9,8 @@
         }
     ],
     "require": {
-        "php": "^8.1",
-        "illuminate/support": "^10.0",
+        "php": "^7.3|^8.0",
+        "illuminate/support": "^8.1",
         "imagine/imagine": "~0.5.0"
     },
     "require-dev": {
