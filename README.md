@@ -17,7 +17,7 @@ or add to the `require` section of your `composer.json`.
 php artisan migrate
 ```
 
-## Puplish views
+## Publish views
 ```
 php artisan vendor:publish --provider="Sergmoro1\Imageable\ImageableServiceProvider"
 ```

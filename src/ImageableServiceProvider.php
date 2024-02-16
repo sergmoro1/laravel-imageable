@@ -5,6 +5,8 @@ namespace Sergmoro1\Imageable;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Blade;
+use Sergmoro1\Imageable\View\Components\Button;
 use Sergmoro1\Imageable\View\Components\Upload;
 use Sergmoro1\Imageable\Http\Middleware\AuthenticateOnceWithBasicAuth;
 
@@ -21,6 +23,8 @@ class ImageableServiceProvider extends ServiceProvider
 
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('auth.basic.once', AuthenticateOnceWithBasicAuth::class);
+        
+        //Blade::componentNamespace('Sergmoro1\\Imageable\\Views\\Components', 'imageable');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -31,6 +35,7 @@ class ImageableServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'imageable');
         $this->loadViewComponentsAs('imageable', [
+            Button::class,
             Upload::class,
         ]);
     }
