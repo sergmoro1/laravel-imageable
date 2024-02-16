@@ -17,7 +17,7 @@ or add to the `require` section of your `composer.json`.
 php artisan migrate
 ```
 
-## Puplish views
+## Publish views
 ```
 php artisan vendor:publish --provider="Sergmoro1\Imageable\ImageableServiceProvider"
 ```
@@ -34,6 +34,7 @@ class Post extends Model
 {
     use HasFactory, HasStorage, HasImages;
 ```
+
 Всавьте компонент для загрузки изображений в любое представление.
 ```
 <x-imageable-upload :model="$post"/>
@@ -66,7 +67,7 @@ require('./simpleUpload.js');
 Предполагается, что можно загрузить больше одного файла для конкретной модели, поэтому можно добавить плагин сортировки порядка изображений. Это важно, когда вы хотите менять порядок вывода изображений во frontend или хотите первое изображение использовать, как титульное. Сортировка производится перетаскиванием мышью.
 ```
 import Sortable from 'sortablejs';
-el = document.querySelector('ul.table');
+var el = document.querySelector('div#upload ul.table');
 if (el) {
   var sortable = Sortable.create(el, {
 	  onEnd: function (evt) {
