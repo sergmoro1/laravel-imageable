@@ -24,20 +24,25 @@ class ImageableServiceProvider extends ServiceProvider
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('auth.basic.once', AuthenticateOnceWithBasicAuth::class);
         
-        //Blade::componentNamespace('Sergmoro1\\Imageable\\Views\\Components', 'imageable');
-
         if ($this->app->runningInConsole()) {
             $this->publishes([
-              __DIR__.'/../resources/views' => resource_path('views/vendor/imageable'),
+                __DIR__.'/../resources/css' => resource_path('css/imageable'),
+            ], 'assets');
+            $this->publishes([
+                __DIR__.'/../resources/js' => resource_path('js/imageable'),
+            ], 'assets');
+            $this->publishes([
+                __DIR__.'/../resources/views' => resource_path('views/vendor/imageable'),
             ], 'views');
         }
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'imageable');
         $this->loadViewComponentsAs('imageable', [
-            Button::class,
+            //Button::class,
             Upload::class,
         ]);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'imageable');
     }
 
     protected function registerRoutes()

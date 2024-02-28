@@ -1,0 +1,23 @@
+.upload-table-li {
+	@apply flex list-none mb-2;
+}
+.thumbnail {
+	@apply flex;
+	width: 9rem;
+}
+.thumbnail-img {
+	@apply float-left;
+	max-width: 8rem;
+}
+.buttons {
+	@apply m-2 align-middle;
+}
+.progressBar {
+	@apply block bg-blue-500 w-0 h-1.5 mt-4 rounded ease-out;
+}
+.error {
+	@apply block;
+}
+.message {
+	@apply text-left text-xs text-red-600;
+}
