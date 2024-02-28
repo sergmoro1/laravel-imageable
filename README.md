@@ -1,5 +1,37 @@
 # Laravel Imageable
-Any model can have images. For example, an Article, a Product, or a User. The Imageable package allows you to enable image uploading for any model in a single way.
+Any model can have images. For example, an Article, a Product, or a User. 
+The `Imageable` package allows you quickly and easily to enable image uploading for any model.
+
+## Preliminary remarks
+
+### What does it mean - quickly and easily?
+It is usually necessary to define a field in the table if you intend to upload one image
+for one instance of the model, or a table if several images can be uploaded.
+In addition, it is necessary to provide for the processing of uploaded files, their saving and deletion.
+
+The `Imageable` package makes this process easier. Adding the necessary functionality becomes
+much easier. Uploading files, processing them, and saving them to the desired storage is taken over by `Imageable`.
+
+A single table is used to store information about all uploaded files. You can understand
+which model a particular file belongs to by the value of two fields:
+`imageable_type` - it stores the name of the model and `imageable_id` is the `ID` of the model of type `imageable_type`.
+Thus, both one and many uploaded files can be associated with a specific instance of the model.
+
+### API
+The `Imageable` package uses the `API` to download, process and save files. Therefore,
+authentication is required for the package to work. By default, `basic` stateless authentication is used to pass tests and make to a quick start.
+
+The parameter required for authentication is defined in the application configuration `config/app.php `.
+```
+    'credentials' => [
+        'basic' => ('Basic ' . env('APP_BASIC')),
+    ],
+```
+
+### Changes
+`Tailwindcss` is used in `Laravel` by default, as in the `Imageable` package.
+Since `css`, `js`, `views` resources are published after installing the package, it is possible to change templates and
+customize interface elements.
 
 ## Installation
 Either run
@@ -38,21 +70,36 @@ Insert upload component in a view.
 ```
 <x-imageable-upload :model="$post"/>
 ```
-Place the necessary `css` and `js` files on the page and you can upload images (see carfully all chapters below that begins on CSS, JS).
+Please note that the component uses an instance of the model, therefore, it must be available in the template.
+
+In the same or more appropriate blade-template, you need to insert the registration of download options.
+```
+    <x-slot name="scripts">
+      <script>var upload Options = <?= $post->upload Options() ?>;</script>
+    </x-slot>
+```
+For example, for the `Post` model, the component `<x-imageable-upload :model="$post"/>` is inserted in the view
+`views/post/form.blade.php `, registration of options can also be performed there.
+
+If the necessary `css` and `js` files are already connected to the page, and this is possible if you have already connected `Imageable` for another model, then you can upload images.
+
+If not yet, read on)
 
 ## CSS
-Copy the file from the `resources/css` directory of the package to the same project directory.
-
-Add the following lines to the `resources/css/app.css` file:
+In a file `resources/css/app.css`, after lines
 ```
-@import url('./fileinput.css');
-@import url('./simpleUpload.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
+add line
+```
+@import "./imageable/upload.css";
+```
+Obviously, you can make adjustments to the definition of classes in the file `resources/css/imageable.upload.css`.
 
 ## JS
-Copy the `resources/js/simpleUpload.js` file of the package to the same project directory.
-
-The jQuery plugin is used to upload images, so you need to add this library in the file `resources/js/app.js`.
+The `jQuery` plugin [`simpleUpload`](http://simpleupload.michaelcbrook.com/) is used to upload images, so you need to add `jQuery` library in the file `resources/js/app.js`.
 ```
 window.$ = window.jQuery = require('jquery');
 ```
@@ -63,7 +110,7 @@ require('jquery-simple-upload/simpleUpload');
 require('./simpleUpload.js');
 ```
 
-It is assumed that you can upload more than one file for a specific model, so you can add a plugin for sorting of images. This is important when you want to change the order of image output in frontend or want to use the first image as the main image. Sorting is performed by drag & drop the mouse.
+It is assumed that you can upload more than one file for a specific model, so you can add a plugin for sorting of images [`Sortable`](https://github.com/SortableJS/Sortable). This is important when you want to change the order of image output in frontend or want to use the first image as the main image. Sorting is performed by drag & drop the mouse.
 ```
 import Sortable from 'sortablejs';
 el = document.querySelector('ul.table');
@@ -86,14 +133,24 @@ if (el) {
 ```
 Of course, the plugins used must be pre-installed.
 
-## JS options
+## CSS placement
+The `Imageable` package uses `Google Material Icons`, so you need to connect the icons to the page.
+For example in `views/layouts/app.blade.php `.
 
-Place the definition of parameters for uploading images for the model in one of the blade-templates. It is necessary to place the definition before the script `app.js`.
-Note that the model instance (in the example below `$post`) must be available in the blade template.
 ```
-    <x-slot name="scripts">
-      <script>var uploadOptions = <?= $post->uploadOptions() ?>;</script>
-    </x-slot>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="{{ url('css/app.css') }}" rel="stylesheet">
+```
+
+## JS placement
+Since the `Imageable` package uses the `API` to upload files, authentication is required.
+By default, the package uses `basic` stateless authentication to run tests and quickly start using the package.
+Place the credentials on the page, for example in `views/layouts/app.blade.php `.
+
+```
+  <script>var app_credentials = '<?= config('app.credentials.basic'); ?>';</script>
+  {{ $scripts }}
+  <script src="/js/app.js"></script>
 ```
 
 ## Finally
