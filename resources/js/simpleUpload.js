@@ -1,6 +1,17 @@
 /**
+ * Copying text to the clipboard for later use in the text area.
+ */
+async function copyTextToClipboard(text) {
+  try {
+      await navigator.clipboard.writeText(text);
+  } catch (err) {
+      console.error('Error in copying text: ', err);
+  }
+}
+
+/**
  * Image line actions handler.
- * Image line - line with additional fields as a caption for image.
+ * Image line - line with additional fields as a caption for image and action buttons: edit, delete, save and cancel.
  * @author Sergey Morozov <sergmoro1@ya.ru>
  */
 window.imageLine = {
@@ -31,7 +42,7 @@ window.imageLine = {
     this.id = this.li.getAttribute('id');
 
     let data = [];
-    let span = this.li.getElementsByClassName('line');
+    let span = this.li.getElementsByClassName('fields');
     for (let inpt of span[0].getElementsByTagName('input')) {
       if (inpt.type == 'text') {
         data[inpt.name] = inpt.value;
@@ -62,7 +73,7 @@ window.imageLine = {
   copy: function(that) {
     let li = that.closest('li');
 
-    let img = li.querySelector('span.block > img');
+    let img = li.querySelector('.thumbnail > img.thumbnail-img');
     let imgLink = new URL(img.getAttribute('data-img'), window.location.href);
     
     copyTextToClipboard(imgLink);
@@ -80,7 +91,7 @@ window.imageLine = {
       }
     });
     for (let btn of span[0].getElementsByTagName('button')) {
-      btn.classList.toggle('inactive');
+      btn.classList.toggle('hidden');
     }
   },
 };
@@ -100,14 +111,14 @@ $(document).ready(function () {
 
       start: function (file) {
         // add new line
-        this.li = $('<li/>');
-        // add block
-        this.block = $('<span class="block"></span>');
+        this.li = $('<li class="upload-table-li"></li>');
+        // add thumbnail block
+        this.thumbnail = $('<span class="thumbnail"></span>');
         // add progressbar to a block
         this.progressBar = $('<span class="progressBar"></span>');
-        this.li.append(this.block.append(this.progressBar));
+        this.li.append(this.thumbnail.append(this.progressBar));
         // add line to table
-        let table = $('#uploads ul.table');
+        let table = $('#upload ul.table');
         table.append(this.li);
         // clear prev errors
         table.find('li.error').remove();
@@ -124,11 +135,11 @@ $(document).ready(function () {
           // set line id
           this.li.attr('id', data.file.id);
           // add image
-          let img = $('<img/>').attr('src', data.file.thumb).attr('img-data', data.file.url);
-          this.block.append(img);
-          this.block.append(uploadOptions.image.tools);
+          let img = $('<img class="thumbnail-img"/>').attr('src', data.file.thumb).attr('data-img', data.file.url);
+          this.thumbnail.append(img);
+          this.thumbnail.append(uploadOptions.image.tools);
           // add new line
-          this.block.after(uploadOptions.image.line);
+          this.thumbnail.after(uploadOptions.image.line);
           // add buttons
           let buttons = $('<span class="buttons"></span>');
           buttons.append(uploadOptions.image.buttons);

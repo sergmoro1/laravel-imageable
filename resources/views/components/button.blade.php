@@ -1,9 +1,7 @@
-@props(['color', 'action'])
+@props(['action'])
 
 <a href="javascript:;">
-    <button {{ $attributes->merge([
-        'class' => 'bg-'.$color.'-500 hover:bg-'.$color.'-700 text-white py-1 px-2 rounded',
-        ]) }}
+    <button {{ $attributes->merge(['class' => 'text-white px-2 pt-1.5 pb-1 rounded']) }}
         type='button'
         id="btn-{{$action}}"
         title="{{ __('imageable::messages.'.$action.'_image') }}" 
