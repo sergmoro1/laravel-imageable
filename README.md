@@ -2,6 +2,8 @@
 Any model can have images. For example, an Article, a Product, or a User. 
 The `Imageable` package allows you quickly and easily to enable image uploading for any model.
 
+![Imageable example](./20240228_example.png "How Imageable works")
+
 ## Preliminary remarks
 
 ### What does it mean - quickly and easily?

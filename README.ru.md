@@ -2,6 +2,8 @@
 Любая модель может иметь изображения. Например `Post`, `Good` или `User`. 
 Пакет `Imageable` позволяет быстро и просто подключить загрузку изображений для любой модели.
 
+![Imageable example](./20240228_example.png "Как выглядит работа Imageable")
+
 ## Preliminary remarks
 
 ### What does it mean - quickly and easily?
