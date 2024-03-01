@@ -51,14 +51,16 @@ trait HasImages
     /**
      * Prepare options for uploading files.
      * 
+     * @var int limit on the number of images uploaded
      * @return string JSON array with uploading options
      */
-    public function uploadOptions(): string
+    public function uploadOptions(int $limit = 0): string
     {
         return json_encode([
             'data' => [
                 'imageable_type' => get_class(), 
                 'imageable_id' => $this->id,
+                'limit' => $limit,
             ],
             'image' => [
                 'tools' => view('vendor.imageable.line.tools')->render(),
