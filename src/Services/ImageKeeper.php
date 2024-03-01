@@ -9,28 +9,13 @@ use Sergmoro1\Imageable\Models\Image;
 class ImageKeeper
 {
     /**
-     * Unsuccessful uploading. 
-     * 
-     * @param string $message
-     * @param array $params
-     * @return array with error status and message
-     */
-    private static function err(string $message, array $params = []): array
-    {
-        return [
-            'success' => 0,
-            'message' => __($message, $params),
-        ];
-    }
-    
-    /**
      * Transfer the uploaded image to the desired directory and
      * save a record of the file characteristics in the Images table.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public static function proceed(Request $request, string $file_input = 'file_input'): array
+    public static function proceed(Request $request): array
     {
         $post = $request->all();
 
@@ -44,7 +29,7 @@ class ImageKeeper
         // a model that has images, such as Post
         $model = $imageable_type::find($imageable_id);
     
-        $file = $post[$file_input];
+        $file = $post['file_input'];
 
         // upload error
         if ($file->getError() !== UPLOAD_ERR_OK) {
@@ -57,7 +42,7 @@ class ImageKeeper
         }
 
         // too many files
-        if (isset($post['limit']) && $post['limit'] > count($model->images)) {
+        if ($post['limit'] > 0 && count($model->images) >= $post['limit']) {
             return self::err('imageable::messages.too_many_files', ['max' => $post['limit']]);
         }
 
@@ -94,5 +79,20 @@ class ImageKeeper
         } else {
             return self::err(__('imageable::messages.image_cant_be_saved'));
         }
+    }
+
+    /**
+     * Unsuccessful uploading. 
+     * 
+     * @param string $message
+     * @param array $params
+     * @return array with error status and message
+     */
+    private static function err(string $message, array $params = []): array
+    {
+        return [
+            'success' => 0,
+            'message' => __($message, $params),
+        ];
     }
 }

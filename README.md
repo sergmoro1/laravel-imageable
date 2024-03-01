@@ -35,6 +35,9 @@ The parameter required for authentication is defined in the application configur
 Since `css`, `js`, `views` resources are published after installing the package, it is possible to change templates and
 customize interface elements.
 
+### Limitation of use
+Only one component `<x-imageable-upload />` can be placed on the page.
+
 ## Installation
 Either run
 ```
@@ -70,18 +73,11 @@ class Post extends Model
 ```
 Insert upload component in a view.
 ```
-<x-imageable-upload :model="$post"/>
+<x-imageable-upload :model="$post" :limit=1/>
 ```
 Please note that the component uses an instance of the model, therefore, it must be available in the template.
 
-In the same or more appropriate blade-template, you need to insert the registration of download options.
-```
-    <x-slot name="scripts">
-      <script>var upload Options = <?= $post->upload Options() ?>;</script>
-    </x-slot>
-```
-For example, for the `Post` model, the component `<x-imageable-upload :model="$post"/>` is inserted in the view
-`views/post/form.blade.php `, registration of options can also be performed there.
+The `limit` parameter defines the number of images that can be uploaded for the model. The default is `0', which means you can upload any number of images.
 
 If the necessary `css` and `js` files are already connected to the page, and this is possible if you have already connected `Imageable` for another model, then you can upload images.
 
@@ -98,7 +94,8 @@ add line
 ```
 @import "./imageable/upload.css";
 ```
-Obviously, you can make adjustments to the definition of classes in the file `resources/css/imageable.upload.css`.
+If necessary, you can make adjustments to the classes definition in the `resources/css/imageable/upload.css` file 
+since this is a copy of a similar package file.
 
 ## JS
 The `jQuery` plugin [`simpleUpload`](http://simpleupload.michaelcbrook.com/) is used to upload images, so you need to add `jQuery` library in the file `resources/js/app.js`.
@@ -112,7 +109,7 @@ require('jquery-simple-upload/simpleUpload');
 require('./simpleUpload.js');
 ```
 
-It is assumed that you can upload more than one file for a specific model, so you can add a plugin for sorting of images [`Sortable`](https://github.com/SortableJS/Sortable). This is important when you want to change the order of image output in frontend or want to use the first image as the main image. Sorting is performed by drag & drop the mouse.
+If you whant to upload more than one file for a specific model, you can add a plugin for sorting of images [`Sortable`](https://github.com/SortableJS/Sortable). This is important when you want to change the order of image output in frontend or want to use the first image as the main image. Sorting is performed by drag & drop the mouse.
 ```
 import Sortable from 'sortablejs';
 el = document.querySelector('ul.table');
@@ -133,7 +130,7 @@ if (el) {
   });
 }
 ```
-Of course, the plugins used must be pre-installed.
+Of course, the libs and plugins used must be pre-installed.
 
 ## CSS placement
 The `Imageable` package uses `Google Material Icons`, so you need to connect the icons to the page.
@@ -191,12 +188,6 @@ class Post extends Model
 
 ## Configure views
 After installing the package, the component files are copied to the `resources\views\vendor\imageable` directory, where you can freely edit html markup, change styles and add/remove fields to describe each uploaded image.
-
-The component for loading images can be inserted anywhere in the view. Not necessarily inside the `form` tag.
-
-```
-<x-imageable-upload :model="$post"/>
-```
 
 ## Configure fields view
 To change the list of additional fields of uploaded images, you need to edit the default values in the `addonDefaults` variable of the model, as mentioned above, and the `vendor\imageable\line\fields.blade.php` view, where it is necessary to define additional html markup. An example with possible fields and their values is given in the package in the file `fiealds-example.blade.php`.
