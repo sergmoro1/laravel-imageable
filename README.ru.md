@@ -86,6 +86,17 @@ class Post extends Model
 
 Если ещё нет, читайте дальше)
 
+## JS libs & plugins
+Добавьте в секцию `dependencies` файла `package.json` две строки.
+```
+  "jquery-simple-upload": "^1.1.0",
+  "sortablejs": "^1.15.1"
+```
+Затем выполните в консоли.
+```
+npm update
+```
+
 ## CSS
 В файл `resources/css/app.css`, после строк
 ```
@@ -136,17 +147,6 @@ if (el) {
 	  },    
   });
 }
-```
-
-## JS libs & plugins
-Add in `dependencies` section of the `package.json` file two lines.
-```
-  "jquery-simple-upload": "^1.1.0",
-  "sortablejs": "^1.15.1"
-```
-Then run in the console.
-```
-npm update
 ```
 
 ## CSS placement
