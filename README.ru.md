@@ -14,6 +14,7 @@
 Пакет `Imageable` позволяет упростить этот процесс. Добавлять необходимую функциональность становится
 намного проще. Загрузку файлов, их обработку, сохранение в нужном хранилище берет на себя `Imageble`.
 
+### How is it done?
 Для хранения информации о всех загруженных файлах используется одна таблица. Понять, 
 к какой модели относится тот или иной файл можно по значению двух полей:
 `imageable_type` - в нём хранится название модели и `imageable_id` - это `ID` модели типа `imageable_type`.
@@ -100,7 +101,7 @@ class Post extends Model
 так как это копия аналогичного файла пакета.
 
 ## JS
-Для загрузки изображений используюется `jQuery` плагин [`simpleUpload`](http://simpleupload.michaelcbrook.com/), 
+Для загрузки изображений используюется `jQuery` плагин [simpleUpload](http://simpleupload.michaelcbrook.com/), 
 поэтому необходимо сначала подключить `jQuery` библиотеку в файле `resources/js/app.js`.
 ```
 window.$ = window.jQuery = require('jquery');
@@ -113,7 +114,7 @@ require('./imageable/simpleUpload.js');
 ```
 
 Если предполагается, что можно загрузить больше одного файла для конкретной модели, 
-то можно добавить плагин [`Sortable`](https://github.com/SortableJS/Sortable) сортировки порядка изображений. 
+то можно добавить плагин [Sortable](https://github.com/SortableJS/Sortable) сортировки порядка изображений. 
 Это важно, когда вы хотите менять порядок вывода изображений во frontend или хотите первое изображение использовать, 
 как титульное. Сортировка производится перетаскиванием мышью.
 ```
@@ -136,7 +137,17 @@ if (el) {
   });
 }
 ```
-Конечно, используемые библиотеки и плагины необходимо предварительно установить. 
+
+## JS libs & plugins
+Add in `dependencies` section of the `package.json` file two lines.
+```
+  "jquery-simple-upload": "^1.1.0",
+  "sortablejs": "^1.15.1"
+```
+Then run in the console.
+```
+npm update
+```
 
 ## CSS placement
 Пакет `Imageable` использует `Google Material Icons`, поэтому необходимо подключить иконки на страницу.
