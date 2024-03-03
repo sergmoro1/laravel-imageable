@@ -10,9 +10,9 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(
- *     version="1.0.0",
- *     title="API documentation for blog example.",
- *     description="Implementation of Swagger with in Laravel",
+ *     version="1.0.2",
+ *     title="API documentation for Imageable package.",
+ *     description="The package serves to simplify the connection to the project of the ability to upload images",
  *     @OA\Contact(
  *         email="sergmoro1@ya.ru"
  *     ),
@@ -24,7 +24,7 @@ use OpenApi\Annotations as OA;
  *
  * @OA\Server(
  *     url="http://localhost:8080",
- *     description="Blog API Server"
+ *     description="API Server"
  * )
  * 
  * @OA\SecurityScheme(
