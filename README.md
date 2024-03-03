@@ -12,8 +12,9 @@ for one instance of the model, or a table if several images can be uploaded.
 In addition, it is necessary to provide for the processing of uploaded files, their saving and deletion.
 
 The `Imageable` package makes this process easier. Adding the necessary functionality becomes
-much easier. Uploading files, processing them, and saving them to the desired storage is taken over by `Imageable`.
+much simple. Uploading files, processing them, and saving them to the desired storage is taken over by `Imageable`.
 
+### How is it done?
 A single table is used to store information about all uploaded files. You can understand
 which model a particular file belongs to by the value of two fields:
 `imageable_type` - it stores the name of the model and `imageable_id` is the `ID` of the model of type `imageable_type`.
@@ -54,7 +55,7 @@ or add to the `require` section of your `composer.json`.
 php artisan migrate
 ```
 
-## Publish views
+## Publish resources
 ```
 php artisan vendor:publish --provider="Sergmoro1\Imageable\ImageableServiceProvider"
 ```
@@ -77,11 +78,22 @@ Insert upload component in a view.
 ```
 Please note that the component uses an instance of the model, therefore, it must be available in the template.
 
-The `limit` parameter defines the number of images that can be uploaded for the model. The default is `0', which means you can upload any number of images.
+The `limit` parameter defines the number of images that can be uploaded for the model. The default is `0`, which means you can upload any number of images.
 
 If the necessary `css` and `js` files are already connected to the page, and this is possible if you have already connected `Imageable` for another model, then you can upload images.
 
 If not yet, read on)
+
+## JS libs & plugins
+Add in `dependencies` section of the `package.json` file two lines
+```
+  "jquery-simple-upload": "^1.1.0",
+  "sortablejs": "^1.15.1"
+```
+Then run in the console
+```
+npm update
+```
 
 ## CSS
 In a file `resources/css/app.css`, after lines
@@ -98,7 +110,7 @@ If necessary, you can make adjustments to the classes definition in the `resourc
 since this is a copy of a similar package file.
 
 ## JS
-The `jQuery` plugin [`simpleUpload`](http://simpleupload.michaelcbrook.com/) is used to upload images, so you need to add `jQuery` library in the file `resources/js/app.js`.
+The `jQuery` plugin [simpleUpload](http://simpleupload.michaelcbrook.com/) is used to upload images, so you need to add `jQuery` library in the file `resources/js/app.js`.
 ```
 window.$ = window.jQuery = require('jquery');
 ```
@@ -109,7 +121,7 @@ require('jquery-simple-upload/simpleUpload');
 require('./simpleUpload.js');
 ```
 
-If you whant to upload more than one file for a specific model, you can add a plugin for sorting of images [`Sortable`](https://github.com/SortableJS/Sortable). This is important when you want to change the order of image output in frontend or want to use the first image as the main image. Sorting is performed by drag & drop the mouse.
+If you whant to upload more than one file for a specific model, you can add a plugin for sorting of images [Sortable](https://github.com/SortableJS/Sortable). This is important when you want to change the order of image output in frontend or want to use the first image as the main image. Sorting is performed by drag & drop the mouse.
 ```
 import Sortable from 'sortablejs';
 el = document.querySelector('ul.table');
@@ -130,7 +142,6 @@ if (el) {
   });
 }
 ```
-Of course, the libs and plugins used must be pre-installed.
 
 ## CSS placement
 The `Imageable` package uses `Google Material Icons`, so you need to connect the icons to the page.

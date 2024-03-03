@@ -39,7 +39,6 @@ class ImageableServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'imageable');
         $this->loadViewComponentsAs('imageable', [
-            //Button::class,
             Upload::class,
         ]);
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'imageable');
