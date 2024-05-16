@@ -12,8 +12,8 @@ use Imagine\Imagick\Imagine;
  * Image model class
  *
  * @param integer   $id
+ * @param string    $imageable_type
  * @param integer   $imageable_id
- * @param string    $parent_type
  * @param string    $disk
  * @param string    $url
  * @param string    $original
