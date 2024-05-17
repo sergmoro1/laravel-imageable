@@ -1,8 +1,7 @@
 # Laravel Imageable
 The `Imageable` package allows quickly and easily to enable image uploading for any model.
 Uploading files, processing them, and saving them to the desired storage is taken over by `Imageable`.
-
-Each image may have some descriptive fields associated with it, such as a caption, category, date, or something like that. By default, only caption are accepted, but any fields can be set. See the configuration.
+Besides each image may have some descriptive fields associated with it.
 
 ## API
 The `Imageable` package uses the `API` to download, process and save files. Therefore,
@@ -78,13 +77,13 @@ If necessary, you can make adjustments to the classes definition in the `resourc
 since this is a copy of a similar package file.
 
 ### JS
-To upload images and work with additional fields related to images, add two lines to app.js
+To upload images and work with additional fields related to images, add two lines to `app.js`.
 ```
 require('./imageable/axiosUpload.js');
 require('./imageable/imageLine.js');
 ```
 
-If you want to upload more than one file for a specific model, you can add a plugin for sorting of images [Sortable](https://github.com/SortableJS/Sortable). This is important when you want to change the order of image output in frontend or want to use the first image as the main image. Sorting is performed by drag & drop the mouse. Add code below for images sorting.
+If you want to upload more than one file for a specific model, you can add a plugin for sorting of images [Sortable](https://github.com/SortableJS/Sortable). This is important when you want to change the order of image output in frontend or want to use the first image as the main image. Sorting is performed by drag & drop the mouse. Add a line below for images sorting to `app.js`.
 ```
 require('./imageable/sortable.js');
 ```

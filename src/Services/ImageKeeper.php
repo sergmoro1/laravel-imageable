@@ -42,7 +42,7 @@ class ImageKeeper
         }
 
         // too many files
-        if ($post['limit'] > 0 && count($model->images) >= $post['limit']) {
+        if (isset($post['limit']) && $post['limit'] > 0 && count($model->images) >= $post['limit']) {
             return self::err('imageable::messages.too_many_files', ['max' => $post['limit']]);
         }
 
